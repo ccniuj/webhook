@@ -1,2 +1,2 @@
 # webhook
-A server used for receive webhooks
+A tiny node server used for receiving webhooks
