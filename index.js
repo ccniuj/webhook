@@ -1,6 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var receiver = require('./lib/github_receiver')
+var publisher = require('./lib/medium_publisher')
 
 var app = express()
 app.use(bodyParser.json());
@@ -11,7 +12,11 @@ app.get('/', function (req, res) {
 
 app.post('/github_api_callback', function (req, res) {
   var result = receiver.inspect(req.body)
-  console.log(result.shouldPublish ? result.payload.title : "bar")
+
+  if (result.shouldPublish) {
+    publisher.publish(result.payload)
+  }
+
   res.send('callback!')
 })
 
